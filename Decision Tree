@@ -1,0 +1,87 @@
+#Task 1 - Understanding the data
+# import packages
+import pandas as pd
+
+# Code starts here
+bank_full = pd.read_csv(feature_path)
+bank_full_labels = pd.read_csv(label_path)
+print(bank_full.head())
+print(bank_full_labels.head())
+# Code ends here
+
+#Task 2 - Learning a decision tree on given data
+# import packages
+
+import numpy as np
+import matplotlib.pyplot as plt
+from io import StringIO
+from sklearn.tree import export_graphviz
+from sklearn.model_selection import train_test_split
+from sklearn import tree
+from sklearn import metrics
+from IPython.display import Image
+import pydotplus
+from sklearn.tree import DecisionTreeClassifier
+
+# Code starts here
+data_train,data_test,label_train,label_test=train_test_split(bank_full,bank_full_labels,test_size=0.20,random_state=6)
+
+dt2 = DecisionTreeClassifier(criterion='gini',max_depth=2, random_state=17)
+
+dt2.fit(data_train, label_train)
+
+dot_data = tree.export_graphviz(dt2, out_file=None, feature_names=bank_full.columns, filled = True, class_names=['term_deposit_yes','term_deposit_no'])
+
+graph_big = pydotplus.graph_from_dot_data(dot_data)
+
+# show graph - do not delete/modify the code below this line
+img_path = user_data_dir+'/file.png'
+graph_big.write_png(img_path)
+
+plt.figure(figsize=(14,18))
+plt.imshow(plt.imread(img_path))
+plt.axis('off')
+plt.show() 
+# Code ends here
+
+#Task 3 - Getting the accuracy of test data using decision tree 
+# Code starts here
+from sklearn.tree import DecisionTreeClassifier
+dt2=DecisionTreeClassifier(criterion='entropy',max_depth=3,random_state=1)
+dt2.fit(data_train,label_train)
+dt2_score_train = dt2.score(data_train,label_train)
+print('Accuracy on the training data=',dt2_score_train)
+dt2_score_test = dt2.score(data_test,label_test)
+print('Accuracy on the testining data=',dt2_score_test)
+
+
+# Code ends here
+
+#Task 4 - Observe overfitting of decision tree on data
+#  Code stsrts here
+
+from sklearn.tree import DecisionTreeClassifier
+#Initialize a new decision tree classifier dt4
+dt4=DecisionTreeClassifier(criterion='entropy',max_depth=4,random_state=6)
+
+dt4.fit(data_train,label_train)
+
+dt4_score_train=dt4.score(data_train,label_train)
+print('dt_4 accuracy on train data',dt4_score_train)
+
+dt4_score_test=dt4.score(data_test,label_test)
+print('dt_4 accuracy on test data',dt4_score_test)
+
+#Now initalize a new decision tree classifier dt_full
+dt_full=DecisionTreeClassifier(criterion='entropy',random_state=6)
+
+dt_full.fit(data_train,label_train)
+
+dt_full_score_train=dt_full.score(data_train,label_train)
+print('dt_full accuracy on train data',dt_full_score_train)
+
+dt_full_score_test=dt_full.score(data_test,label_test)
+print('dt_full accuracy on test data',dt_full_score_test)
+
+
+# Code ends here
