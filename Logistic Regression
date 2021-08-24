@@ -1,8 +1,9 @@
 #Task 1 - Load the dataset
+
 # import packages
+
 import pandas as pd
 import numpy as np
-
 # Code starts here
 data = pd.read_csv(path)
 print(data.shape)
@@ -12,7 +13,9 @@ print(data.isnull().sum())
 
 
 #Task 2 - Make your own sigmoid function
+
 # Code starts here
+
 def sigmoid(x):
     sigmoid = 1 / (1 + np.exp(x))
     return sigmoid
@@ -23,6 +26,7 @@ print(result)
 
 
 #Task 3 - Preprocess data
+
 # import packages
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
@@ -34,8 +38,10 @@ y = data['class']
 
 X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.20,random_state=42)
 
+
 scaler= MinMaxScaler()
 scaler.fit(X_train)
+
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
@@ -47,6 +53,7 @@ y_pred = model.predict(X_test)
 
 
 #Task 4 - Find accuracy, precision, recall, f-score
+
 # import packages
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
