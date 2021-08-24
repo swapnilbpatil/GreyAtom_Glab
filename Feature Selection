@@ -44,8 +44,9 @@ y_pred=model.predict(X_test_new)
 corr_score=model.score(X_test_new,y_test)
 print(corr_score)
 
-
 # Code ends here
+
+
 
 #Task 2 - Chi Square test
 # import packages
@@ -76,20 +77,7 @@ y_pred_chi=model.predict(X_test)
 chi2_score=model.score(X_test,y_test)
 print(chi2_score)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Code ends here
 
 
 
@@ -97,9 +85,7 @@ print(chi2_score)
 # import packages
 import pandas as pd
 from sklearn.feature_selection import f_regression
-
 from sklearn.feature_selection import SelectKBest
-
 
 # Code starts here
 #Features
@@ -122,8 +108,9 @@ y_pred_chi=model.predict(X_test)
 f_regress_score=model.score(X_test,y_test)
 print(f_regress_score)
 
-
 # Code ends here
+
+
 
 #Task 4 - RFE
 # Feature Extraction with RFE
@@ -163,6 +150,8 @@ for n in nof_list:
 print("High Score is {} with no of Features {}".format(high_score,nof))
 
 
+
+
 #Task 5 - LASSO/RIDGE
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import Lasso
@@ -184,6 +173,5 @@ ridge=Ridge(random_state=0)
 ridge.fit(X_train,y_train)
 ridge_score=ridge.score(X_test,y_test)
 print("Ridge-",ridge_score)
-
 
 # Code ends here
