@@ -1,0 +1,141 @@
+#Task 1 - Split into training and test datasets
+# import packages
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+
+# Code starts here
+df = pd.read_csv(path)
+X = df.iloc[:,:7]
+y = df.iloc[:,7]
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size = 0.2, random_state=2)
+print(X_train,X_test)
+# code ends here
+
+#Task 2 - Detect Outlier
+# Import packages
+import matplotlib.pyplot as plt
+
+
+# Code starts here
+plt.figure(figsize=(16,10))
+
+fig, ((ax_1,ax_2),(ax_3,ax_4)) = plt.subplots(2,2)
+
+# For SalePrice vs LotFrontage
+ax_1.scatter(X_train['LotFrontage'],y_train,color = 'red')
+ax_1.set_title('SalePrice vs LotFrontage')
+ax_1.set_xlabel('LotFrontage')
+ax_1.set_ylabel('SalePrice')
+
+# For SalePrice vs TotalBsmtSF
+ax_2.scatter(X_train['TotalBsmtSF'],y_train,color = 'blue')
+ax_2.set_title('SalePrice vs TotalBsmtSF')
+ax_2.set_xlabel('TotalBsmtSF')
+ax_2.set_ylabel('SalePrice')
+
+# For SalePrice vs GrLivArea
+ax_3.scatter(X_train['GrLivArea'],y_train,color = 'green')
+ax_3.set_title('SalePrice vs GrLivArea')
+ax_3.set_xlabel('GrLivArea')
+ax_3.set_ylabel('SalePrice')
+
+# For SalePrice vs LotArea
+ax_4.scatter(X_train['LotArea'],y_train,color = 'black')
+ax_4.set_title('SalePrice vs LotArea')
+ax_4.set_xlabel('LotArea')
+ax_4.set_ylabel('SalePrice')
+
+
+# Code ends here 
+
+#Task 3 - Out LIARS!
+# Code starts here
+train = pd.concat([X_train, y_train], axis=1)
+mask1 =  train['LotFrontage'] < 300
+mask2 =  train['TotalBsmtSF'] < 5000
+mask3 =  train['GrLivArea'] < 4500
+mask4 =  train['LotArea'] < 100000
+train = train[mask1 & mask2 & mask3 & mask4]
+print(train)
+
+
+# Code ends here
+
+#Task 4 - Identify percentage of missing values
+
+
+
+
+# Split into feature and target
+X_train, y_train = train.iloc[:,:7], train[['SalePrice']]
+
+
+# Code starts here
+missing_columns = (X_train.isnull().sum()*100)/len(X_train)
+mask = missing_columns > 50
+columns = missing_columns[mask].index.tolist()
+rows_percentage = (1 - (len(X_train.dropna(thresh=5)) / len(X_train)))*100
+print(rows_percentage)
+# Code ends here
+
+#Task 5 - Treat missing values
+
+
+
+# Import packages
+from sklearn.preprocessing import Imputer
+dict_new = {'Attchd':0,'Detchd':1,'BuiltIn':2,'2Types':3,'CarPort':4,'Basment':5}
+X_train['GarageType'] = X_train['GarageType'].map(dict_new)
+X_test['GarageType'] = X_test['GarageType'].map(dict_new)
+
+# Custom imputers
+mean_imputer = Imputer(strategy='mean')
+mode_imputer = Imputer(strategy='most_frequent')
+
+
+# Code starts here
+#Drop the column PoolQC from X_train and X_test
+X_train.drop('PoolQC',axis = 1,inplace=True)
+X_test.drop('PoolQC',axis=1,inplace=True)
+
+mean_imputer = Imputer(strategy='mean')
+mode_imputer = Imputer(strategy='most_frequent')
+
+mode_imputer=mode_imputer.fit(X_train[['GarageType']])
+X_train['GarageType'] = mode_imputer.transform(X_train[['GarageType']])
+X_test['GarageType'] = mode_imputer.transform(X_test[['GarageType']])
+
+mode_imputer=mean_imputer.fit(X_train[['LotFrontage']])
+X_train['LotFrontage'] = mean_imputer.transform(X_train[['LotFrontage']])
+X_test['LotFrontage'] = mean_imputer.transform(X_test[['LotFrontage']])
+
+
+# Code ends here
+
+#Task 6 - Eliminate skewness from `SalePrice`
+# import packages
+import seaborn as sns
+
+# Code starts here
+y_train = np.log(y_train)
+sns.distplot(y_train)
+
+# Code ends here
+
+#Task 7 - Scale your numerical features
+# numerical columns
+num_columns = ['LotFrontage', 'TotalBsmtSF', 'GrLivArea', 'LotArea']
+
+# Import packages
+from sklearn.preprocessing import MinMaxScaler
+
+# Code starts here
+normalizer = MinMaxScaler()
+
+normalizer.fit(X_train[num_columns])
+X_train[num_columns] = normalizer.transform(X_train[num_columns])
+X_test[num_columns] = normalizer.transform(X_test[num_columns])
+print(X_train.head(5),X_test.head(5))
+# Code ends here
+
