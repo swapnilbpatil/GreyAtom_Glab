@@ -1,0 +1,71 @@
+#Task 1 - Load the dataset
+# import packages
+import pandas as pd
+import numpy as np
+
+
+# Code starts here
+data = pd.read_csv(path)
+print(data.shape)
+print(data.isnull().sum())
+
+
+# Code ends here
+
+#Task 2 - Make your own sigmoid function
+# Code starts here
+def sigmoid(x):
+    sigmoid = 1 / (1 + np.exp(x))
+    return sigmoid
+result =  sigmoid(0) 
+print(result)
+
+# Code ends here
+
+#Task 3 - Preprocess data
+# import packages
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.linear_model import LogisticRegression
+
+# Code starts here
+X = data.drop(columns='class')
+y = data['class']
+
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.20,random_state=42)
+
+scaler= MinMaxScaler()
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
+model = LogisticRegression()
+model.fit(X_train,y_train)
+y_pred = model.predict(X_test)
+
+
+# Code ends here
+
+#Task 4 - Find accuracy, precision, recall, f-score
+# import packages
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+
+# Code starts here
+cf = confusion_matrix(y_test, y_pred, labels=None, sample_weight=None)
+print("confusion matrix =",cf)
+acc = accuracy_score(y_test, y_pred)
+print("accuracy =",acc)
+
+precision = precision_score(y_test, y_pred)
+print("precision = ",precision)
+
+recall = recall_score(y_test, y_pred)
+print("recall = ",recall)
+
+
+f_score = f1_score(y_test, y_pred)
+print("f_score = ",f_score)
+
+
+
+# Code starts here
