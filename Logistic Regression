@@ -3,14 +3,13 @@
 import pandas as pd
 import numpy as np
 
-
 # Code starts here
 data = pd.read_csv(path)
 print(data.shape)
 print(data.isnull().sum())
 
-
 # Code ends here
+
 
 #Task 2 - Make your own sigmoid function
 # Code starts here
@@ -21,6 +20,7 @@ result =  sigmoid(0)
 print(result)
 
 # Code ends here
+
 
 #Task 3 - Preprocess data
 # import packages
@@ -43,8 +43,8 @@ model = LogisticRegression()
 model.fit(X_train,y_train)
 y_pred = model.predict(X_test)
 
-
 # Code ends here
+
 
 #Task 4 - Find accuracy, precision, recall, f-score
 # import packages
@@ -65,7 +65,5 @@ print("recall = ",recall)
 
 f_score = f1_score(y_test, y_pred)
 print("f_score = ",f_score)
-
-
 
 # Code starts here
