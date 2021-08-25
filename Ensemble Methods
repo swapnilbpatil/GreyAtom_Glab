@@ -1,0 +1,137 @@
+#Task 1 - Using voting method for prediction
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+
+
+#Different models initialised
+log_clf_1 = LogisticRegression(random_state=0)
+log_clf_2 = LogisticRegression(random_state=42)
+decision_clf1 = DecisionTreeClassifier(criterion = 'entropy',random_state=0)
+decision_clf2 = DecisionTreeClassifier(criterion = 'entropy', random_state=42)
+
+
+#Creation of list of models
+Model_List=[('Logistic Regression 1', log_clf_1),
+            ('Logistic Regression 2', log_clf_2),
+            ('Decision Tree 1', decision_clf1),
+            ('Decision Tree 2', decision_clf2)]
+
+# Code starts here
+
+#Load the dataset
+data = pd.read_csv(path)
+print(data.head(10))
+
+#Store all the features
+X=data.iloc[:,:-1]
+#Store the target variable
+y=data.iloc[:,-1]
+#train_test_split
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=0)
+
+from sklearn.ensemble import VotingClassifier
+#For hard voting
+#from sklearn to initialize a voting classifier
+voting_clf_hard = VotingClassifier(estimators = Model_List,voting = 'hard')
+
+voting_clf_hard.fit(X_train,y_train)                                  
+hard_voting_score=voting_clf_hard.score(X_test,y_test)
+print("Hard Voting Train Accuracy-",hard_voting_score)
+
+#For soft voting
+#from sklearn to initialize a voting classifier
+voting_clf_soft = VotingClassifier(estimators = Model_List,voting = 'soft')
+
+voting_clf_soft.fit(X_train,y_train)                                  
+soft_voting_score=voting_clf_soft.score(X_test,y_test)
+print("Soft Voting Train Accuracy-",hard_voting_score)
+
+
+
+# Code ends here
+
+#Task 2 - Using bagging for prediction
+from sklearn.ensemble import BaggingClassifier
+
+# Code starts here
+
+bagging_clf = BaggingClassifier(DecisionTreeClassifier(), n_estimators=100, max_samples=100, random_state=0)
+
+bagging_clf.fit(X_train,y_train)
+
+score_bagging = bagging_clf.score(X_test,y_test)
+print("Testing score: %.2f " % score_bagging)
+
+
+# Code ends here
+
+#Task 3 - Using pasting for prediction
+# Code starts here
+
+
+
+
+pasting_clf = BaggingClassifier(DecisionTreeClassifier(), n_estimators=100, max_samples=100,bootstrap=False, random_state=0)
+
+pasting_clf.fit(X_train,y_train)
+
+score_pasting = pasting_clf.score(X_test,y_test)
+print("Testing score: %.2f " % score_pasting)
+
+
+# Code ends here
+
+#Task 4 - Using Random Forest for prediction
+from sklearn.ensemble import RandomForestClassifier
+
+# Code starts here
+rf_clf = RandomForestClassifier(n_estimators=100,n_jobs=100, min_samples_leaf=100,random_state=0)
+
+rf_clf.fit(X_train,y_train)
+
+score_rf = rf_clf.score(X_test,y_test)
+print("Testing score: %.2f " % score_rf)
+
+
+# Code ends here
+
+#Task 5 - Using Grid Search for Random Forest
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+#Parameter grid
+parameter_grid = {"max_depth": [3, None],
+              "max_features": [1, 3, 10],
+              "min_samples_split": [2, 3, 10],
+              "min_samples_leaf": [1, 3, 10],
+              "bootstrap": [True, False],
+              "criterion": ["gini", "entropy"]}
+
+# Code starts here
+clf = RandomForestClassifier(random_state=0)
+
+grid_search = GridSearchCV(estimator=clf,param_grid= parameter_grid)
+
+grid_search.fit(X_train,y_train)
+
+score_gs = grid_search.score(X_test,y_test)
+print("Testing score: %.2f " % score_gs)
+
+# Code ends here
+
+#Task 6 - Using Randomized Search for Random Forest
+from sklearn.model_selection import RandomizedSearchCV
+from sklearn.ensemble import RandomForestClassifier
+# Code starts here
+clf = RandomForestClassifier(random_state=0)
+
+random_search = RandomizedSearchCV(estimator=clf,param_distributions= parameter_grid,n_iter=20,random_state=0)
+
+random_search.fit(X_train,y_train)
+
+score_rs = random_search.score(X_test,y_test)
+print("Testing score: %.2f " % score_rs)
+
+
+# Code ends here
