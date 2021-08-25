@@ -133,5 +133,4 @@ random_search.fit(X_train,y_train)
 score_rs = random_search.score(X_test,y_test)
 print("Testing score: %.2f " % score_rs)
 
-
 # Code ends here
