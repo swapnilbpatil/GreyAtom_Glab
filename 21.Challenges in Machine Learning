@@ -1,0 +1,229 @@
+#Task 1 - Logistic Regression model
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import f1_score, confusion_matrix
+from sklearn.metrics import precision_score, recall_score
+from sklearn.metrics import roc_auc_score
+import zipfile
+path = zipfile.ZipFile(path)
+path= path.open('creditcard_new.csv')
+
+# Code starts here
+data = pd.read_csv(path)
+print("shape:",data.shape)
+
+#Store all the features
+X = data.drop(columns =['Class'],axis=1)
+print("X_shape:",X.shape)
+#Store the target variable
+y = data["Class"]
+print("y_shape:",y.shape)
+#train test split
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.3,stratify=y,random_state=0)
+
+#Initialise a logistic regression model 
+model = LogisticRegression()
+
+#Fit the model on the training
+model.fit(X_train,y_train)
+
+#Fit the model on the training
+y_pred = model.predict(X_test)
+
+#Find out the accuracy
+accuracy = model.score(X_test,y_test)
+print("The Accuracy Score:",accuracy)
+
+#Find out the recall score
+recall = recall_score(y_test,y_pred)
+print("The Recall Score:",recall)
+
+#Find out the precision score 
+precision = precision_score(y_test,y_pred)
+print("The Precision Score:",precision)
+
+#Find out the f1 score
+f1 = f1_score(y_test,y_pred)
+print("The f1 Score:",f1)
+
+#Find out the confusion matrix
+confusion_mat = confusion_matrix(y_test,y_pred)
+print("The Confusion Matrix Score:",confusion_mat)
+
+# Code ends here
+
+
+
+
+#Task 2 - Random Undersampling
+
+
+
+
+
+from imblearn.under_sampling import RandomUnderSampler
+
+
+# Code starts here
+rus = RandomUnderSampler(random_state=0)
+
+X_sample2,y_sample2 = rus.fit_sample(X_train,y_train)
+
+#Initialise a logistic regression model 
+model_rus = LogisticRegression(random_state=0)
+
+#Fit the model on the training
+model_rus.fit(X_sample2,y_sample2)
+
+#Fit the model on the training
+y_pred = model_rus.predict(X_test)
+
+#Find out the accuracy
+accuracy_rus = model_rus.score(X_test,y_test)
+print("The Accuracy Score of RUS:",accuracy_rus)
+
+#Find out the recall score
+recall_rus = recall_score(y_test,y_pred)
+print("The Recall Score of RUS:",recall_rus)
+
+#Find out the precision score 
+precision_rus = precision_score(y_test,y_pred)
+print("The Precision Score of RUS:",precision_rus)
+
+#Find out the f1 score
+f1_rus = f1_score(y_test,y_pred)
+print("The f1 Score of RUS:",f1_rus)
+
+#Find out the confusion matrix
+confusion_mat_rus = confusion_matrix(y_test,y_pred)
+print("The Confusion Matrix Score of RUS:",confusion_mat_rus)
+
+# Code ends here
+
+#Task 3 - Cluster Centroids
+from imblearn.under_sampling import ClusterCentroids
+
+
+# Code starts here
+cc = ClusterCentroids(random_state=0)
+
+X_sample3,y_sample3 = cc.fit_sample(X_train,y_train)
+
+#Initialise a logistic regression model 
+model_cc = LogisticRegression()
+
+#Fit the model on the training
+model_cc.fit(X_sample3,y_sample3)
+
+#Fit the model on the training
+y_pred = model_cc.predict(X_test)
+
+#Find out the accuracy
+accuracy_cc = model_cc.score(X_test,y_test)
+print("The Accuracy Score:",accuracy_cc)
+
+#Find out the recall_cc score
+recall_cc = recall_score(y_test,y_pred)
+print("The Recall_cc Score:",recall_cc)
+
+#Find out the precision_cc score 
+precision_cc = precision_score(y_test,y_pred)
+print("The Precision_cc Score:",precision_cc)
+
+#Find out the f1_cc score
+f1_cc = f1_score(y_test,y_pred)
+print("The f1_cc Score:",f1_cc)
+
+#Find out the confusion matrix_cc
+confusion_mat_cc = confusion_matrix(y_test,y_pred)
+print("The Confusion Matrix Score:",confusion_mat_cc)
+
+
+# Code ends here
+
+#Task 4 - Tomek Undersampling
+from imblearn.under_sampling import TomekLinks
+
+#Code starts here
+tl = TomekLinks(random_state=0)
+
+X_sample4,y_sample4 = tl.fit_sample(X_train,y_train)
+
+#Initialise a logistic regression model 
+model_tl = LogisticRegression(random_state=0)
+
+#Fit the model on the training
+model_tl.fit(X_sample4,y_sample4 )
+
+#Fit the model on the training
+y_pred = model_tl.predict(X_test)
+
+#Find out the accuracy
+accuracy_tl = model_tl.score(X_test,y_test)
+print("The Accuracy_tl Score:",accuracy_tl)
+
+#Find out the recall score_tl
+recall_tl = recall_score(y_test,y_pred)
+print("The Recall_tl Score:",recall_tl)
+
+#Find out the precision score_tl 
+precision_tl = precision_score(y_test,y_pred)
+print("The Precision_tl Score:",precision_tl)
+
+#Find out the f1 score_tl
+f1_tl = f1_score(y_test,y_pred)
+print("The f1_tl Score:",f1_tl)
+
+#Find out the confusion matrix_tl
+
+confusion_mat_tl = confusion_matrix(y_test,y_pred)
+print("The Confusion Matrix_tl Score:",confusion_mat_tl)
+
+
+#Code ends here
+
+#Task 5 - Random Oversampling
+from imblearn.over_sampling import RandomOverSampler
+
+# Code starts here
+ros = RandomOverSampler(random_state=0)
+
+X_sample5,y_sample5 = ros.fit_sample(X_train,y_train)
+
+#Initialise a logistic regression model 
+model_ros = LogisticRegression(random_state=0)
+
+#Fit the model on the training
+model_ros.fit(X_sample5,y_sample5)
+
+#Fit the model on the training
+y_pred = model_ros.predict(X_test)
+
+#Find out the accuracy
+accuracy_ros = model_ros.score(X_test,y_test)
+print("The Accuracy Score of ROS:",accuracy_ros)
+
+#Find out the recall score
+recall_ros = recall_score(y_test,y_pred)
+print("The Recall Score of ROS:",recall_ros)
+
+#Find out the precision score 
+precision_ros = precision_score(y_test,y_pred)
+print("The Precision Score of ROS:",precision_ros)
+
+#Find out the f1 score
+f1_ros = f1_score(y_test,y_pred)
+print("The f1 Score of ROS:",f1_ros)
+
+#Find out the confusion matrix
+confusion_mat_ros = confusion_matrix(y_test,y_pred)
+print("The Confusion Matrix Score of ROS:",confusion_mat_ros)
+
+
+
+# Code ends here
+
