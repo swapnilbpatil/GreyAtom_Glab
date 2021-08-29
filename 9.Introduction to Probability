@@ -1,0 +1,57 @@
+#Task 1 - Will your loan be approved?
+# import packages
+import pandas as pd
+import matplotlib.pyplot as plt
+
+import numpy as np
+
+# Load dataframe
+df=pd.read_csv(path)
+
+
+# Display values per class of 'Loan_Status'
+vpc=df.Loan_Status.value_counts()
+print('value count-',vpc)
+
+
+# Total number of rows
+total=len(df['Loan_Status'])
+print("Total-",total)
+
+
+# Number of loan applications accepted
+y = df.loc[(df["Loan_Status"]=="Y"), ["Loan_Status"]]
+yes = len(y)
+print('Yes-',yes)
+
+# Number of loan applications rejected
+no = df.Loan_Status.value_counts('N')
+
+# Probability of loan getting accepted
+p_of_A = yes/total
+
+# Display probability
+print(p_of_A)
+
+
+#Task 2 - Which area is the house located in?
+# Total number of records
+urban = df.loc[(df["Property_Area"]=="Urban"),["Property_Area"]]
+total_urban=len(urban)
+semiurban = df.loc[(df["Property_Area"]=="Semiurban"),["Property_Area"]]
+total_semi=len(semiurban)
+rura = df.loc[(df["Property_Area"]=="Rura"),["Property_Area"]]
+total_rura=len(rura)
+total=len(df["Property_Area"])
+# Probability of Urban houses
+p_of_urban = total_urban/total
+
+# Probability of Semiurban houses
+p_of_semiurban = total_semi/total
+
+# Probability of either Urban or Semiurban houses 
+p_of_or = p_of_urban + p_of_semiurban
+
+# Display probability
+print(p_of_or)
+
