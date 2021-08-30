@@ -89,9 +89,8 @@ print(fastest_pokemon)
 
 # Code ends here
 
+
 #Task 7 - Answer questions using data
-
-
 # Drop row with Name as nan
 df = df[df.index.notnull()]
 
@@ -105,8 +104,8 @@ s2= df[df['Type 2'].isnull() & df['Legendary'] == True]
 single_type_legendary=len(s2)
 print(single_type_legendary)
 
-
 # Code ends here
+
 
 #Task 8 - Modify Pokemon names
 # Code starts here
@@ -130,6 +129,7 @@ print(fastest_type)
 # Code ends here
 
 
+
 #Task 10 - Calculate mean value of attack speed points across generations and types 
 # Code starts here
 
@@ -137,6 +137,8 @@ print(fastest_type)
 pivot=pd.pivot_table(df,index='Type 1',values='Attack speed points',columns='Generation')
 print(pivot)
 # Code ends here
+
+
 
 #Task 11 - Combine data by merging dataframes
 # Input 
@@ -153,6 +155,8 @@ df2 = pd.DataFrame({'product': ['apple', 'orange', 'pine'] * 2,
 merged = pd.merge(df1, df2, how='inner', left_on=['fruit', 'weight'], right_on=['product', 'kilo'], suffixes=['_left', '_right'])
 print(merged)
 # Code ends here
+
+
 
 #Task 12 - Categorize Attack speed points into Low Attack, Normal Attack and High Attack
 # Code starts here
@@ -172,6 +176,8 @@ def attack(num):
 Special_attack['Attack speed points'] = Special_attack['Attack speed points'].apply(attack)
 
 # Code ends here
+
+
 
 #Task 13 - Which pokemon type is the strongest and which the weakest? (according to total stats)
 # Code starts here
