@@ -1,0 +1,123 @@
+#Task 1 - Visualize counts of Pokemons according to `Type 2` in a sorted manner using bar-chart
+#import packages
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# load data
+df = pd.read_csv(path)
+
+# reset index to 'Name'
+df.set_index('Name', inplace=True)
+
+# drop column '#'
+df.drop('#', inplace=True, axis=1)
+
+# Code starts here
+
+# Counts for 'Type 2' counts in descending order
+type_2 = df['Type 2'].value_counts(ascending=False)
+# bar chart
+type_2.plot(kind='bar')
+
+# display plot
+plt.show()
+
+# Code ends here
+
+#Task 2 - How does the mean attack points (`Attack`) for `Type 1` Pokemons fare against `Type 2`?
+# Code starts here
+
+# Type 1 mean attack points dataframe for every category
+type_1=df.groupby(['Type 1'])[['Attack']].mean()
+
+# Type 2 mean attack points dataframe for every category
+type_2=df.groupby(['Type 2'])[['Attack']].mean()
+
+# Reset index for both dataframes
+type_1.reset_index(inplace=True)
+type_2.reset_index(inplace=True)
+
+# Merge both dataframes
+merged=pd.merge(type_1,type_2,how='inner',left_on=['Type 1'], right_on=['Type 2'])
+
+# Drop 'Type 1' column permanently
+merged.drop(['Type 1'], axis=1, inplace=True)
+# Rename column
+merged.rename(columns={'Type 2':'Type'},inplace=True)
+
+# Set size of the figure
+plt.figure(figsize=(14,8))
+
+# Line plot for 'Type 1' Pokemon mean attack points
+plt.plot(merged['Type'], merged['Attack_x'], color='red')
+
+# Line plot for 'Type 2' Pokemon mean attack points
+plt.plot(merged['Type'], merged['Attack_y'], color='blue')
+
+# Setting X-axis label
+plt.xlabel('Types')
+# Setting Y-axis label
+plt.ylabel('Mean Attack points')
+
+# Title of the plot
+plt.title('Comparison of Mean Attack Points for variants of Type 1 and Type 2')
+
+# Setting Y-axis limit
+plt.ylim((45, 120))
+
+# Legend 
+plt.legend(labels=['Type1', 'Type 2'])
+
+# Display plot
+plt.show()
+
+# Code ends here
+
+#Task 3 - Which generation has the highest chances of being legendary?
+# Code starts here
+
+# Group Pokemons
+res=df.groupby(['Generation','Legendary']).size().unstack()
+
+# Plot stacked bar chart
+res.plot(kind='bar', stacked=True, figsize=(15,10))
+
+# Display plot
+plt.show()
+
+# Code ends here
+
+#Task 4 - Visualize the distribution of `Attack` points for `Dragon` type (`Type 1`) Pokemons
+# Code starts here
+
+# Mean 'Attack' for all Pokemons
+mean_attack=df['Attack'].mean()
+
+# Mean 'Attack' for Dragon type Pokemons
+dragon=df[df['Type 1']== 'Dragon']
+mean_dragon=dragon['Attack'].mean()
+# Histogram for Dragon type Pokemons
+dragon.hist(column='Attack', bins=8)
+plt.axvline(x=mean_attack, color='green')
+plt.axvline(x=mean_dragon, color='black')
+# Display plot
+plt.show()
+
+# Code ends here
+
+#Task 5 - Do electric pokemons have a correlation between their health and attack?
+# Code starts here
+
+# Conditional filtering for 'Electric' pokemons
+electric=df[(df['Type 1']=='Electric')]
+
+# Scatter plot for 'Attack' vs 'HP'
+plt.scatter(electric['HP'],electric['Attack'])
+
+# Display plot
+plt.show()
+
+
+# Code ends here
+
