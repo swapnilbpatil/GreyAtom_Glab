@@ -1,0 +1,112 @@
+#Task 1 - Histogram
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Code starts here
+df=pd.read_csv(path)
+df.hist(column='SalePrice', bins=10)
+# Code ends here
+
+#Task 2 - Scatter plot
+import matplotlib.pyplot as plt
+
+# Code starts here
+plt.scatter(df['SalePrice'],df['GarageArea'])
+plt.show()
+# Code ends here
+
+#Task 3 - Plot the pie chart for number of GarageCars for all the houses in the dataset
+import matplotlib.pyplot as plt
+# Code starts here
+garage = df.GarageCars.value_counts()
+plt.pie(garage)
+# Code ends here
+
+#Task 4 - Calculate arithmetic mean, median, mode for SalePrice and plot the same on the histogram
+# Code starts here
+mean=(df['SalePrice']).mean()
+mode=(df['SalePrice']).mode()
+median=(df['SalePrice']).median()
+plt.hist('SalePrice',bins=40)
+plt.plot([mode]*300, range(300), label='mode')
+plt.plot([median]*300, range(300), label='median')
+plt.plot([mean]*300, range(300), label='mean')
+plt.show()
+
+# Code ends here
+
+#Task 5 - Calculate the range of SalePrice
+# Code starts here
+maximum=df.SalePrice.max()
+minimum=df.SalePrice.min()
+range_saleprice=maximum-minimum
+print(range_saleprice)
+
+# Code ends here
+
+#OR
+print(df.SalePrice.max()-df.SalePrice.min())
+
+#Task 6 - Calculate the MAD for SalePrice
+# Code starts here
+mean=df.SalePrice.mean()
+SalePrice=df.SalePrice
+distance=SalePrice-mean
+mad=distance.mad()
+print(mad)
+
+# Code ends here
+
+
+
+#Task 7 - Calculate the Standard Deviation for SalePrice
+# Code starts here
+mean=df.SalePrice.mean()
+SalePrice=df.SalePrice
+distance=SalePrice-mean
+squre=distance**2
+add=squre.sum()/len(squre)
+sd=add**(1/2)
+print(sd)
+# Code ends here
+
+#Task 8 - Calculate CV for GarageArea and LotArea and compare the same
+# code starts here
+garage_mean=df.GarageArea.mean()
+garage_std=df.GarageArea.std()
+lot_mean=df.LotArea.mean()
+lot_std=df.LotArea.std()
+garage_cv=(garage_std/garage_mean)*100
+lot_cv=(lot_std/lot_mean)*100
+print(garage_cv,lot_cv)
+# Code ends here
+
+#Task 9 -  Inter - Quartile Range (IQR)
+# Code starts here
+q1=df.SalePrice.quantile(0.25)
+print(q1)
+q3=df.SalePrice.quantile(0.75)
+print(q3)
+iqr=q3-q1
+print(iqr)
+# Code ends here
+
+#Task 10 - box plot
+# Code starts here
+data=df.SalePrice
+plt.boxplot(data)
+plt.show()
+# Code ends here
+
+#Task 11 - Covariance
+# Code starts here
+new= df.LotArea[:20],df.SalePrice[:20]
+mean_lotarea=df.LotArea[:20].mean()
+mean_saleprice=df.SalePrice[:20].mean()
+diff_lotarea=df.LotArea[:20]-mean_lotarea
+diff_saleprice=df.SalePrice[:20]-mean_saleprice
+summation=diff_lotarea*diff_saleprice
+covariance=(summation.sum()/len(summation))
+print(covariance)
+# Code ends here
